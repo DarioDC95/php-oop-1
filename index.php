@@ -1,50 +1,12 @@
 <?php
-    class Movie
-    {
-        public $image;
-        public $title;
-        public $year;
-        public $genre;
-        public $vote;
-        public $star = [];
-
-        function __construct($_title, $_year, $_vote, Genre $_genre, $_image)
-        {
-            $this->title = $_title;
-            $this->year = $_year;
-            $this->genre = $_genre;
-            $this->vote = $_vote;
-            $this->image = $_image;
-        }
-
-        public function setStars() {
-            for($i = 0; $i < $this->vote; $i++) {
-                $this->star[] = '<i class="fa-solid fa-star"></i>';
-            }
-        }
-
-        public function getYearsOfOld() 
-        {
-            $yearsOld = date('Y') - $this->year;
-            return $yearsOld;
-        }
-    }
-
-    class Genre
-    {
-        public $genre;
-
-        function __construct($_genre)
-        {
-            $this->genre = $_genre;
-        }
-    }
+    include __DIR__. "/models/movie-constructor.php";
+    include __DIR__. "/models/genre-constructor.php";
     
     $genre1 = new Genre(array("Adventure", "Action", "Fantasy"));
     $genre2 = new Genre(array("Adventure", "Action", "Fantasy", "Horror"));
 
     $movie1 = new Movie('Pirati dei Caraibi - La Maledizione della Prima Luna', 2003, 4, $genre1, "https://cdn.chili.com/images/public/cms/5e/69/58/79/5e695879-b01d-428d-943d-56bbb6675bf0.jpg?width=800");
-    $movie2 = new Movie('Pirati dei Caraibi - Ai Confini del Mare', 2006, 5, $genre2, "https://cdn.chili.com/images/public/cms/5f/f3/95/bb/5ff395bb-097d-4981-bd38-21320fad7b73.jpg?width=422");
+    $movie2 = new Movie('Pirati dei Caraibi - Ai Confini del Mondo', 2006, 5, $genre2, "https://cdn.chili.com/images/public/cms/5f/f3/95/bb/5ff395bb-097d-4981-bd38-21320fad7b73.jpg?width=422");
 
     $movie1->setStars($movie1->vote);
     $movie2->setStars($movie2->vote);
@@ -71,14 +33,12 @@
                 <?php foreach ($arrayFilm as $value) { ?>
                     <div class="col-6">
                         <div class="card">
-                            <div class="card-header">
-                                <img class="w-100" src="<?php echo $value->image ?>" alt="">
-                            </div>
+                            <img class="img-top" src="<?php echo $value->image ?>" alt="">
                             <div class="card-body">
                                 <h1><?php echo $value->title; ?></h1>
                                 <h4><?php echo implode(", ", $value->genre->genre); ?></h4>
                                 <h5><?php echo $value->year; ?></h5>
-                                <h5><?php echo $value->getYearsOfOld(); ?></h5>
+                                <h5>E' di: <?php echo $value->getYearsOfOld(); ?> anni fa</h5>
                                 <h2 class="text-warning"><?php echo implode(" ", $value->star); ?></h2>
                             </div>
                         </div>
