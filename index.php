@@ -1,21 +1,20 @@
 <?php
-    echo "ciao";
-    echo '<br>';
-
     class Movie
     {
+        public $image;
         public $title;
         public $year;
         public $genre;
         public $vote;
         public $star = [];
 
-        function __construct($_title, $_year, $_vote, Genre $_genre)
+        function __construct($_title, $_year, $_vote, Genre $_genre, $_image)
         {
             $this->title = $_title;
             $this->year = $_year;
             $this->genre = $_genre;
             $this->vote = $_vote;
+            $this->image = $_image;
         }
 
         public function setStars() {
@@ -44,23 +43,13 @@
     $genre1 = new Genre(array("Adventure", "Action", "Fantasy"));
     $genre2 = new Genre(array("Adventure", "Action", "Fantasy", "Horror"));
 
-    $movie1 = new Movie('Pirati dei Caraibi - La Maledizione della Prima Luna', 2003, 4, $genre1);
-    $movie2 = new Movie('Pirati dei Caraibi - Ai Confini del Mare', 2006, 5, $genre2);
+    $movie1 = new Movie('Pirati dei Caraibi - La Maledizione della Prima Luna', 2003, 4, $genre1, "https://cdn.chili.com/images/public/cms/5e/69/58/79/5e695879-b01d-428d-943d-56bbb6675bf0.jpg?width=800");
+    $movie2 = new Movie('Pirati dei Caraibi - Ai Confini del Mare', 2006, 5, $genre2, "https://cdn.chili.com/images/public/cms/5f/f3/95/bb/5ff395bb-097d-4981-bd38-21320fad7b73.jpg?width=422");
 
     $movie1->setStars($movie1->vote);
     $movie2->setStars($movie2->vote);
 
-    echo '<pre>';
-    var_dump($movie1);
-    echo '</pre>';
-    echo '<pre>';
-    var_dump($movie2);
-    echo '</pre>';
-    echo $movie1->title;
-    echo '<br>';
-    echo implode(", ", $movie1->genre->genre);
-    echo '<br>';
-    echo implode(", ", $movie2->genre->genre);
+    $arrayFilm = array($movie1, $movie2);
 ?>
 
 <!DOCTYPE html>
@@ -79,22 +68,22 @@
     <main>
         <div class="container">
             <div class="row">
-                <div class="col">
-                    <div class="card">
-                        <h1><?php echo $movie1->title; ?></h1>
-                        <h4><?php echo implode(", ", $movie1->genre->genre); ?></h4>
-                        <h3><?php echo $movie1->year; ?></h3>
-                        <h2><?php echo $movie1->getYearsOfOld(); ?></h2>
+                <?php foreach ($arrayFilm as $value) { ?>
+                    <div class="col-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <img class="w-100" src="<?php echo $value->image ?>" alt="">
+                            </div>
+                            <div class="card-body">
+                                <h1><?php echo $value->title; ?></h1>
+                                <h4><?php echo implode(", ", $value->genre->genre); ?></h4>
+                                <h5><?php echo $value->year; ?></h5>
+                                <h5><?php echo $value->getYearsOfOld(); ?></h5>
+                                <h2 class="text-warning"><?php echo implode(" ", $value->star); ?></h2>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <h1><?php echo $movie2->title; ?></h1>
-                        <h4><?php echo implode(", ", $movie2->genre->genre); ?></h4>
-                        <h3><?php echo $movie2->year; ?></h3>
-                        <h2><?php echo $movie2->getYearsOfOld(); ?></h2>
-                    </div>
-                </div>
+                <?php } ?>    
             </div>
         </div>
     </main>
